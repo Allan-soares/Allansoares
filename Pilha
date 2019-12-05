@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Item{
+    int num;
+    struct Item *proximo;
+};
+
+void Inicializa(Item **topo){
+   *topo = NULL;
+}
+
+bool EstaVazia(Item **topo){
+   if(*topo == NULL)  
+      return true;  
+   else  
+      return false;  
+}
+
+void Empilha(Item **topo, int elemento){
+    k=0;
+    k++;
+    Item *novo;
+    novo = (Item *)malloc(sizeof(Item));  
+    novo->num = elemento;
+    novo->proximo = *topo; // -> próximo recebe o elemento que estava no topo.
+    *topo = novo;
+}
+
+int Desempilha(Item **topo){
+   int result;
+   Item *auxiliar;
+   if(EstaVazia(topo))
+   {
+        printf("\n stack underflow! \n");
+        exit(1);
+   }
+   else // -> Elemento retirado do topo{
+        result = (*topo)->num;
+        auxiliar = *topo;
+        *topo = (*topo)->proximo;
+        free(auxiliar);
+        return result;
+   }  
+}
+
+void MostrarPilha(Item *topo){
+    int i = 0;
+    Item *item;
+    printf("\n\n Listando...\n\n");
+    printf("---------------------------------\n");
+
+    if (EstaVazia(&topo)){
+        printf ("Pilha vazia!\n");
+    }
+    else{      
+        item = topo;
+
+        while(item != NULL){
+            i++;
+            printf("[%i] -> %i\n", i, item->num);
+            item = item->proximo;
+        }
+    }
+
+    printf("---------------------------------\n");
+}
+
+void Menu(){
+    printf( "Digite a sua escolha: \n"
+        "    1 empilhar elemento \n"
+        "    2 desempilhar \n"
+        "    3 finalizar \n"
+        "? ");
+}
+
+void main(){   
+    Item *topo = NULL;
+    int opcao;
+    int num;
+
+    Menu();
+    scanf("%i", &opcao);
+
+    while (opcao != 5){
+
+        switch (opcao){
+            case 1:
+                printf( "Digite um numero: ");
+                scanf("\n%i", &num);
+
+                Empilha(&topo, num);
+                MostrarPilha(topo);
+
+                break;
+            case 2:
+                Desempilha(&topo);
+                MostrarPilha(topo);
+
+                break;
+            case 3:
+                cout<<"elemento do topo = "<<*topo<<endl;
+                
+            case 4:
+                
+                for (int i=0, i<k; i++){
+                Desempilha(&topo);
+                }
+                MostrarPilha(topo);
+                
+            default:
+                printf( "Escolha invalida.\n\n");
+                Menu();
+                break;
+        }
+
+        scanf("%i", &opcao);   
+    }
+
+    system("pause");
+}
